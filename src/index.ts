@@ -1,11 +1,22 @@
-import { Dictionary } from '../utils/Dictionary';
 
-const dict = new Dictionary();
+class Tank {
+  protected name: string = '123'
+}
 
-dict.set('a', 1);
-dict.set("b", 2);
-dict.set("b", 3);
+class PlayerTank extends Tank {
+  x: number = 10
+  y: number = 20
+  like: number = 5
+  name: string = '222'
+}
 
-dict.forEach((key, val) => {
-  console.log(key + ':' + val);
-})
+class EnemyTank extends Tank {
+
+}
+
+const play: Tank = new PlayerTank();
+
+if (play instanceof PlayerTank) {
+  play.like
+  play.name
+}

@@ -1,17 +1,11 @@
-declare enum sex {
-    male = "\u7537",
-    female = "\u5973"
+declare class Tank {
+    x: number;
+    y: number;
 }
-interface userInfo {
-    name: string;
-    age: number;
-    sex: sex;
+declare class PlayerTank extends Tank {
+    x: number;
+    y: number;
 }
-declare const res: {
-    name: string;
-    age: number;
-    sex: sex;
-    type: number;
-    createTime: string;
-};
-declare const userInfo: userInfo;
+declare class EnemyTank extends Tank {
+}
+declare const play: PlayerTank;
