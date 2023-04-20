@@ -5,8 +5,6 @@ import { Square } from "./core/Square";
 import { SquarePagesViewer } from "./core/viewer/SquarePagesViewer";
 import $ from 'jquery';
 
-let isRemove = false;
-
 const sq = new Square();
 sq.viewer = new SquarePagesViewer(sq, $('#root'));
 sq.color = 'red';
@@ -23,16 +21,12 @@ $("#btnDown").on('click', () => {
 })
 
 $("#btnRemove").on('click', () => {
-  if (sq.viewer) {
+  if(sq.viewer) {
     sq.viewer.remove();
-    isRemove = true;
   }
 })
 
 $("#btnAdd").on('click', () => {
-  if (!isRemove) {
-    return;
-  }
-  isRemove = false
+  sq.viewer?.isRemove
   sq.viewer = new SquarePagesViewer(sq, $("#root"));
 })

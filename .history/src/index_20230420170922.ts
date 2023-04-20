@@ -33,6 +33,5 @@ $("#btnAdd").on('click', () => {
   if (!isRemove) {
     return;
   }
-  isRemove = false
   sq.viewer = new SquarePagesViewer(sq, $("#root"));
 })
