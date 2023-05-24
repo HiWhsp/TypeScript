@@ -4,7 +4,7 @@ import { createTeris } from "./core/Teris";
 import $ from 'jquery';
 import { TerisRule } from "./core/TerisRule";
 import { SquareGroup } from "./core/SquareGroup"
-import { IPoint } from "./types/types";
+import { IPoint, MoveDirection } from "./types/types";
 import GameConfig from "./core/GameConfig";
 
 
@@ -35,27 +35,33 @@ $("body").on("keydown", function (e) {
       }
       break;
     case "ArrowLeft":
-      resulePoint = {
-        x: group.centerPoint.x - 1,
-        y: group.centerPoint.y
-      }
+      // resulePoint = {
+      //   x: group.centerPoint.x - 1,
+      //   y: group.centerPoint.y
+      // }
+      TerisRule.move(group, MoveDirection.left);
       break;
     case "ArrowRight":
-      resulePoint = {
-        x: group.centerPoint.x + 1,
-        y: group.centerPoint.y
-      }
+      // resulePoint = {
+      //   x: group.centerPoint.x + 1,
+      //   y: group.centerPoint.y
+      // }
+      TerisRule.move(group, MoveDirection.right);
       break;
     case "ArrowDown":
-      resulePoint = {
-        x: group.centerPoint.x,
-        y: group.centerPoint.y + 1
-      }
+      // resulePoint = {
+      //   x: group.centerPoint.x,
+      //   y: group.centerPoint.y + 1
+      // }
+      // TerisRule.move(group, MoveDirection.down);
+      TerisRule.moveDirection(group, MoveDirection.down);
       break;
   }
-  if (!TerisRule.canIMove(group.shape, resulePoint)) {
-    group.centerPoint = resulePoint;
-  }
+  // TerisRule.move(group, resulePoint);
+  // TerisRule.move(group, direction);
+  // if (!TerisRule.canIMove(group.shape, resulePoint)) {
+  //   group.centerPoint = resulePoint;
+  // }
 })
 
 $("#btnDown").on('click', () => {
