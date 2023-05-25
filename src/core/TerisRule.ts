@@ -90,4 +90,15 @@ export class TerisRule {
   }
 
 
+  /**
+   * 方块能否旋转
+   * @param teris 目标方块
+   */
+  static rotate(teris: SquareGroup) {
+    const newShape = teris.afterRotateShape();
+    if (!this.canIMove(newShape, teris.centerPoint)) {
+      teris.rotate();
+      return;
+    }
+  }
 }

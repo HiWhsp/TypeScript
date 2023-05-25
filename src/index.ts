@@ -23,45 +23,21 @@ group.squares.forEach(sq => {
 
 
 $("body").on("keydown", function (e) {
-  let resulePoint: IPoint = {
-    x: 0,
-    y: 0
-  }
   switch (e.code) {
     case "ArrowUp":
-      resulePoint = {
-        x: group.centerPoint.x,
-        y: group.centerPoint.y - 1
-      }
+      TerisRule.rotate(group);
       break;
     case "ArrowLeft":
-      // resulePoint = {
-      //   x: group.centerPoint.x - 1,
-      //   y: group.centerPoint.y
-      // }
       TerisRule.move(group, MoveDirection.left);
       break;
     case "ArrowRight":
-      // resulePoint = {
-      //   x: group.centerPoint.x + 1,
-      //   y: group.centerPoint.y
-      // }
       TerisRule.move(group, MoveDirection.right);
       break;
     case "ArrowDown":
-      // resulePoint = {
-      //   x: group.centerPoint.x,
-      //   y: group.centerPoint.y + 1
-      // }
-      // TerisRule.move(group, MoveDirection.down);
-      TerisRule.moveDirection(group, MoveDirection.down);
+      TerisRule.move(group, MoveDirection.down);
+      // TerisRule.moveDirection(group, MoveDirection.down);
       break;
   }
-  // TerisRule.move(group, resulePoint);
-  // TerisRule.move(group, direction);
-  // if (!TerisRule.canIMove(group.shape, resulePoint)) {
-  //   group.centerPoint = resulePoint;
-  // }
 })
 
 $("#btnDown").on('click', () => {

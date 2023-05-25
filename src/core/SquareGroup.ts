@@ -1,9 +1,12 @@
 import { IPoint, Shape } from "../types/types";
 import { Square } from "./Square";
-
+import { TerisRule } from "./TerisRule";
 export class SquareGroup {
   // 存放方块组的数组
   private _squares: Square[] = []
+
+  // 是否顺时针旋转
+  protected isClock = true;
 
   // 获取方块组数据
   public get squares() {
@@ -22,6 +25,13 @@ export class SquareGroup {
   // 设置中心点坐标
   public set centerPoint(val: IPoint) {
     this._contentPoint = val;
+    this.setSquaresPoint();
+  }
+
+  /**
+   * 设置小方块位置
+   */
+  private setSquaresPoint() {
     // 循环形状数组 实例化小方块，对应页面位置
     this._shape.forEach((it, i) => {
       this._squares[i].point = {
@@ -30,6 +40,34 @@ export class SquareGroup {
       }
     })
   }
+
+  // 旋转方法
+  afterRotateShape(): Shape {
+    const list = this._shape;
+    // 顺时针旋转
+    if (this.isClock) {
+      return list.map((it, i) => {
+        return {
+          x: -it.y,
+          y: it.x,
+        }
+      })
+    } else {
+      return list.map((it, i) => {
+        return {
+          x: it.y,
+          y: -it.x,
+        }
+      })
+    }
+  }
+
+  rotate() {
+    const newShape = this.afterRotateShape(); // 生成新的形状
+    this._shape = newShape;
+    this.setSquaresPoint();
+  }
+
 
   /**
    * 方块类的构造函数
@@ -43,12 +81,9 @@ export class SquareGroup {
     this._shape.forEach((it) => {
       const sq = new Square();
       sq.color = this._color;
-      sq.point = {
-        x: this._contentPoint.x + it.x,
-        y: this._contentPoint.y + it.y
-      }
       arr.push(sq);
     })
     this._squares = arr;
+    this.setSquaresPoint();
   }
 }
