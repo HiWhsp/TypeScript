@@ -1,6 +1,5 @@
 import { IPoint, Shape } from "../types/types";
 import { Square } from "./Square";
-import { TerisRule } from "./TerisRule";
 export class SquareGroup {
   // 存放方块组的数组
   private _squares: Square[] = []

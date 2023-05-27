@@ -8,17 +8,28 @@
   <title>俄罗斯方块</title>
   <style>
     #root {
-      /* width: 300px;
-      height: 300px; */
-      background-color: #000;
       margin: 0 auto;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+    }
+
+    #gameViewer {
+      background-color: #000;
+      position: relative;
+    }
+
+    #tip {
       position: relative;
     }
   </style>
 </head>
 
 <body>
-  <div id="root"></div>
+  <div id="root">
+    <div id="gameViewer"></div>
+    <div id="tip"></div>
+  </div>
 </body>
 
 </html>

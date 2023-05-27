@@ -4,6 +4,7 @@
 
 import { IPoint, MoveDirection, Shape } from "../types/types";
 import GameConfig from "./GameConfig";
+import { Square } from "./Square";
 import { SquareGroup } from "./SquareGroup";
 
 function isPoint(obj: any): obj is IPoint {
@@ -20,7 +21,7 @@ export class TerisRule {
    * @param targetPoint 指定位置
    * @returns 
    */
-  static canIMove(shape: Shape, targetPoint: IPoint): boolean {
+  static canIMove(shape: Shape, targetPoint: IPoint, exists: Square[]): boolean {
     // 算出达到的目标位置
     const targetSquarePoint = shape.map((it) => {
       return {
@@ -29,26 +30,27 @@ export class TerisRule {
       }
     })
     // 边界判断
-    const result = targetSquarePoint.some((it) => {
+    let result = targetSquarePoint.some((it) => {
       return it.x < 0 || it.x > GameConfig.panelSize.width - 1 ||
         it.y < 0 || it.y > GameConfig.panelSize.height - 1;
     })
 
+    let resultExists = targetSquarePoint.some(t => exists.some(e => t.x === e.point.x && t.y === e.point.y))
     // 为真达到边界不能移动
-    return result
+    return result || resultExists
   }
 
   /**
    * 移动到目标位置
-   * @param teris 移动的房款
+   * @param teris 移动的方块
    * @param targetPointOrDirection 移动的目标位置 | 移动的方向
    */
-  static move(teris: SquareGroup, targetPoint: IPoint): boolean;
-  static move(teris: SquareGroup, targetPointOrDirection: MoveDirection): boolean;
-  static move(teris: SquareGroup, targetPointOrDirection: IPoint | MoveDirection): boolean {
+  static move(teris: SquareGroup, targetPoint: IPoint, exists: Square[]): boolean;
+  static move(teris: SquareGroup, targetPointOrDirection: MoveDirection, exists: Square[]): boolean;
+  static move(teris: SquareGroup, targetPointOrDirection: IPoint | MoveDirection, exists: Square[]): boolean {
     // 移动的坐标
     if (isPoint(targetPointOrDirection)) {
-      if (!this.canIMove(teris.shape, targetPointOrDirection)) {
+      if (!this.canIMove(teris.shape, targetPointOrDirection, exists)) {
         teris.centerPoint = targetPointOrDirection;
         return true;
       }
@@ -76,17 +78,17 @@ export class TerisRule {
           y: teris.centerPoint.y
         }
       }
-      return this.move(teris, resulePoint);
+      return this.move(teris, resulePoint, exists);
     }
   }
 
   /**
    * 移动到最后
    * @param teris 
-   * @param targetPointOrDirection 
+   * @param targetPointOrDirection
    */
-  static moveDirection(teris: SquareGroup, targetPointOrDirection: MoveDirection) {
-    while (this.move(teris, targetPointOrDirection));
+  static moveDirection(teris: SquareGroup, exists: Square[]) {
+    while (this.move(teris, MoveDirection.down, exists));
   }
 
 
@@ -94,9 +96,9 @@ export class TerisRule {
    * 方块能否旋转
    * @param teris 目标方块
    */
-  static rotate(teris: SquareGroup) {
+  static rotate(teris: SquareGroup, exists: Square[]) {
     const newShape = teris.afterRotateShape();
-    if (!this.canIMove(newShape, teris.centerPoint)) {
+    if (!this.canIMove(newShape, teris.centerPoint, exists)) {
       teris.rotate();
       return;
     }
